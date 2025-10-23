@@ -38,10 +38,144 @@
             min-height: 100vh;
             padding: 20px;
             display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
             overflow-x: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 280px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+        
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .sidebar-logo {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary);
+            border: 3px solid white;
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .sidebar-menu i {
+            font-size: 1.2rem;
+            width: 25px;
+            text-align: center;
+        }
+        
+        /* Botão para abrir/fechar sidebar */
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .sidebar-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Conteúdo principal */
+        .main-content {
+            flex: 1;
+            margin-left: 0;
+            transition: margin-left 0.4s ease;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .main-content.with-sidebar {
+            margin-left: 280px;
         }
         
         /* Animações de fundo */
@@ -764,7 +898,171 @@
             75% { transform: translate(-20px, -20px) rotate(270deg); }
         }
         
+        /* Seção de Frotas */
+        .frotas-container {
+            padding: 50px 40px;
+            display: none;
+        }
+        
+        .frotas-header {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid var(--primary);
+            animation: slideInDown 0.6s ease;
+        }
+        
+        .frotas-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        
+        .frotas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .frota-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .frota-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+        
+        .frota-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .frota-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+        
+        .frota-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .frota-details {
+            margin-bottom: 20px;
+        }
+        
+        .frota-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .frota-detail-label {
+            font-weight: 600;
+            color: var(--gray);
+        }
+        
+        .frota-detail-value {
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .frota-pdfs {
+            margin-top: 20px;
+        }
+        
+        .pdf-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            background: var(--light);
+        }
+        
+        .pdf-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .pdf-item:hover {
+            background: white;
+            border-radius: 6px;
+        }
+        
+        .pdf-item:last-child {
+            border-bottom: none;
+        }
+        
+        .pdf-name {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .pdf-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .pdf-action-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .pdf-action-btn:hover {
+            color: var(--primary-dark);
+            transform: scale(1.2);
+        }
+        
+        .no-pdfs {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            padding: 20px;
+        }
+        
         /* Responsividade */
+        @media (max-width: 1024px) {
+            .main-content.with-sidebar {
+                margin-left: 0;
+            }
+            
+            .sidebar {
+                width: 250px;
+            }
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -788,7 +1086,7 @@
                 font-size: 1.5rem;
             }
             
-            .form-container, .preview-container {
+            .form-container, .preview-container, .frotas-container {
                 padding: 30px 25px;
             }
             
@@ -820,6 +1118,18 @@
             .preview-signature-box {
                 width: 100%;
             }
+            
+            .frotas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar-toggle {
+                top: 10px;
+                left: 10px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -831,7 +1141,7 @@
                 font-size: 1.4rem;
             }
             
-            .form-container, .preview-container {
+            .form-container, .preview-container, .frotas-container {
                 padding: 25px 20px;
             }
             
@@ -842,6 +1152,10 @@
             .logo-container {
                 flex-direction: column;
                 gap: 15px;
+            }
+            
+            .frotas-title {
+                font-size: 1.8rem;
             }
         }
         
@@ -887,6 +1201,26 @@
     </style>
 </head>
 <body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">IE</div>
+            <div class="sidebar-title">Itamarati Express</div>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" data-section="solicitacao"><i class="fas fa-tools"></i> Solicitação</a></li>
+            <li><a href="#" data-section="frotas"><i class="fas fa-truck"></i> Frotas</a></li>
+        </ul>
+    </div>
+    
+    <!-- Overlay para fechar a sidebar em mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Botão para abrir/fechar sidebar -->
+    <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
     <!-- Animações de fundo -->
     <div class="background-animation">
         <div class="floating-element"></div>
@@ -897,215 +1231,251 @@
     <!-- Partículas -->
     <div class="particles" id="particles"></div>
     
-    <div class="container fade-in">
-        <header>
-            <div class="logo-container">
-                <div class="logo">IE</div>
-                <div>
-                    <h1><i class="fas fa-tools"></i> Solicitação de Manutenção</h1>
-                    <p class="subtitle">Itamarati Express - Sistema de Gestão de Frota</p>
-                </div>
-            </div>
-            <div class="brand-badge">
-                <i class="fas fa-truck-fast"></i> ITAMARATI EXPRESS
-            </div>
-        </header>
-        
-        <div class="form-container" id="formContainer">
-            <div class="form-section slide-in-left">
-                <h2><i class="fas fa-truck"></i> Informações do Veículo</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="setor"><i class="fas fa-building"></i> Setor</label>
-                        <div class="input-wrapper">
-                            <select id="setor">
-                                <option value="São Geraldo" selected>São Geraldo</option>
-                                <option value="Itamarati">Itamarati</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="preposto"><i class="fas fa-user-tie"></i> Preposto</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="preposto" placeholder="Nome do preposto">
-                        </div>
+    <!-- Conteúdo Principal -->
+    <div class="main-content" id="mainContent">
+        <div class="container fade-in" id="solicitacaoSection">
+            <header>
+                <div class="logo-container">
+                    <div class="logo">IE</div>
+                    <div>
+                        <h1><i class="fas fa-tools"></i> Solicitação de Manutenção</h1>
+                        <p class="subtitle">Itamarati Express - Sistema de Gestão de Frota</p>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="gerente"><i class="fas fa-user-cog"></i> Gerente de Manutenção</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="gerente" value="Igor Val" readonly>
+                <div class="brand-badge">
+                    <i class="fas fa-truck-fast"></i> ITAMARATI EXPRESS
+                </div>
+            </header>
+            
+            <div class="form-container" id="formContainer">
+                <div class="form-section slide-in-left">
+                    <h2><i class="fas fa-truck"></i> Informações do Veículo</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="setor"><i class="fas fa-building"></i> Setor</label>
+                            <div class="input-wrapper">
+                                <select id="setor">
+                                    <option value="São Geraldo" selected>São Geraldo</option>
+                                    <option value="Itamarati">Itamarati</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="preposto"><i class="fas fa-user-tie"></i> Preposto</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="preposto" placeholder="Nome do preposto">
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="veiculo"><i class="fas fa-truck-moving"></i> Veículo (FROTA - apenas números)</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="veiculo" placeholder="Apenas números da frota" maxlength="7">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gerente"><i class="fas fa-user-cog"></i> Gerente de Manutenção</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="gerente" value="Igor Val" readonly>
+                            </div>
                         </div>
-                        <p class="info-text"><i class="fas fa-info-circle"></i> Apenas números são permitidos</p>
+                        <div class="form-group">
+                            <label for="veiculo"><i class="fas fa-truck-moving"></i> Veículo (FROTA - apenas números)</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="veiculo" placeholder="Apenas números da frota" maxlength="7">
+                            </div>
+                            <p class="info-text"><i class="fas fa-info-circle"></i> Apenas números são permitidos</p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="motorista"><i class="fas fa-id-card-alt"></i> Motorista</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="motorista" placeholder="Nome do motorista">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="km"><i class="fas fa-tachometer-alt"></i> Quilometragem (KM)</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="km" placeholder="Ex: 85.250">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="data"><i class="fas fa-calendar-alt"></i> Data</label>
+                            <div class="date-group">
+                                <input type="text" id="dia" class="date-input" placeholder="DD" maxlength="2">
+                                <span class="date-separator">/</span>
+                                <input type="text" id="mes" class="date-input" placeholder="MM" maxlength="2">
+                                <span class="date-separator">/</span>
+                                <input type="text" id="ano" class="date-input" placeholder="AAAA" maxlength="4">
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button type="button" id="dataAtualBtn" class="btn btn-secondary btn-small">
+                                    <i class="fas fa-sync-alt"></i> Usar Data Atual
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-row">
+                
+                <div class="form-section slide-in-left" style="animation-delay: 0.1s;">
+                    <h2><i class="fas fa-tasks"></i> Serviços Solicitados</h2>
                     <div class="form-group">
-                        <label for="motorista"><i class="fas fa-id-card-alt"></i> Motorista</label>
+                        <label for="servicos"><i class="fas fa-list-check"></i> Descreva os serviços a serem executados</label>
                         <div class="input-wrapper">
-                            <input type="text" id="motorista" placeholder="Nome do motorista">
+                            <textarea id="servicos" class="campo-destaque" placeholder="Liste os serviços solicitados... (Pressione Enter para quebrar linha)"></textarea>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="km"><i class="fas fa-tachometer-alt"></i> Quilometragem (KM)</label>
-                        <div class="input-wrapper">
-                            <input type="text" id="km" placeholder="Ex: 85.250">
-                        </div>
+                        <p class="info-text"><i class="fas fa-keyboard"></i> Pressione Enter para criar uma nova linha</p>
                     </div>
                 </div>
-                <div class="form-row">
+                
+                <div class="form-section slide-in-left" style="animation-delay: 0.2s;">
+                    <h2><i class="fas fa-stethoscope"></i> Diagnóstico e Serviço Executado</h2>
                     <div class="form-group">
-                        <label for="data"><i class="fas fa-calendar-alt"></i> Data</label>
-                        <div class="date-group">
-                            <input type="text" id="dia" class="date-input" placeholder="DD" maxlength="2">
-                            <span class="date-separator">/</span>
-                            <input type="text" id="mes" class="date-input" placeholder="MM" maxlength="2">
-                            <span class="date-separator">/</span>
-                            <input type="text" id="ano" class="date-input" placeholder="AAAA" maxlength="4">
+                        <label for="diagnostico"><i class="fas fa-file-medical"></i> Descreva o diagnóstico e serviço executado</label>
+                        <div class="input-wrapper">
+                            <textarea id="diagnostico" class="campo-destaque" placeholder="Descreva o diagnóstico e serviços executados... (Pressione Enter para quebrar linha)"></textarea>
                         </div>
-                        <div style="margin-top: 15px;">
-                            <button type="button" id="dataAtualBtn" class="btn btn-secondary btn-small">
-                                <i class="fas fa-sync-alt"></i> Usar Data Atual
-                            </button>
-                        </div>
+                        <p class="info-text"><i class="fas fa-keyboard"></i> Pressione Enter para criar uma nova linha</p>
                     </div>
+                </div>
+                
+                <div class="actions">
+                    <button type="button" class="btn btn-secondary" id="limparBtn">
+                        <i class="fas fa-broom"></i> Limpar
+                    </button>
+                    <button type="button" class="btn btn-primary" id="visualizarBtn">
+                        <i class="fas fa-eye"></i> Visualizar
+                    </button>
+                    <button type="button" class="btn btn-success pulse" id="gerarPdfBtn">
+                        <i class="fas fa-file-pdf"></i> Gerar PDF
+                    </button>
                 </div>
             </div>
             
-            <div class="form-section slide-in-left" style="animation-delay: 0.1s;">
-                <h2><i class="fas fa-tasks"></i> Serviços Solicitados</h2>
-                <div class="form-group">
-                    <label for="servicos"><i class="fas fa-list-check"></i> Descreva os serviços a serem executados</label>
-                    <div class="input-wrapper">
-                        <textarea id="servicos" class="campo-destaque" placeholder="Liste os serviços solicitados... (Pressione Enter para quebrar linha)"></textarea>
-                    </div>
-                    <p class="info-text"><i class="fas fa-keyboard"></i> Pressione Enter para criar uma nova linha</p>
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-header">
+                    <h1 class="preview-title">Solicitação de Manutenção</h1>
+                    <button type="button" class="btn btn-secondary btn-small" id="voltarBtn">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
                 </div>
-            </div>
-            
-            <div class="form-section slide-in-left" style="animation-delay: 0.2s;">
-                <h2><i class="fas fa-stethoscope"></i> Diagnóstico e Serviço Executado</h2>
-                <div class="form-group">
-                    <label for="diagnostico"><i class="fas fa-file-medical"></i> Descreva o diagnóstico e serviço executado</label>
-                    <div class="input-wrapper">
-                        <textarea id="diagnostico" class="campo-destaque" placeholder="Descreva o diagnóstico e serviços executados... (Pressione Enter para quebrar linha)"></textarea>
+                
+                <div class="preview-document" id="documentoParaPdf">
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--primary); text-shadow: 1px 1px 3px rgba(0,0,0,0.1);">ITAMARATI EXPRESS</div>
+                        <div style="font-size: 1.4rem; color: var(--dark); margin-top: 8px; font-weight: 600;">Solicitação de Manutenção</div>
                     </div>
-                    <p class="info-text"><i class="fas fa-keyboard"></i> Pressione Enter para criar uma nova linha</p>
+                    
+                    <div class="preview-section">
+                        <h2 style="background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%); padding: 12px; border-radius: 8px; text-align: center; color: var(--dark); margin-bottom: 25px;">NO CASO</h2>
+                        <div class="preview-line">
+                            <div class="preview-field">
+                                <div class="preview-label">DO SETOR</div>
+                                <div class="preview-input-line" id="preview-setor"></div>
+                            </div>
+                            <div class="preview-field">
+                                <div class="preview-label">PREPOSTO</div>
+                                <div class="preview-input-line" id="preview-preposto"></div>
+                            </div>
+                        </div>
+                        <div class="preview-line">
+                            <div class="preview-field">
+                                <div class="preview-label">GERENTE MANUTENÇÃO</div>
+                                <div class="preview-input-line" id="preview-gerente"></div>
+                            </div>
+                            <div class="preview-field">
+                                <div class="preview-label">O VEÍCULO</div>
+                                <div class="preview-input-line" id="preview-veiculo"></div>
+                            </div>
+                        </div>
+                        <div class="preview-line">
+                            <div class="preview-field">
+                                <div class="preview-label">COM O MOTORISTA</div>
+                                <div class="preview-input-line" id="preview-motorista"></div>
+                            </div>
+                            <div class="preview-field">
+                                <div class="preview-label">E KM</div>
+                                <div class="preview-input-line" id="preview-km"></div>
+                            </div>
+                        </div>
+                        <div class="preview-line">
+                            <div class="preview-field">
+                                <div class="preview-label">DIA</div>
+                                <div class="preview-input-line" style="width: 100px;" id="preview-dia"></div>
+                            </div>
+                            <div class="preview-field">
+                                <div class="preview-label">/</div>
+                                <div class="preview-input-line" style="width: 100px;" id="preview-mes"></div>
+                            </div>
+                            <div class="preview-field">
+                                <div class="preview-label">/</div>
+                                <div class="preview-input-line" style="width: 100px;" id="preview-ano"></div>
+                            </div>
+                        </div>
+                        <p style="font-weight: bold; margin-top: 20px; font-size: 1.1rem; color: var(--primary);">QUE SEJAM EFETUADOS OS SERV. ABAIXO SOLICITADOS:</p>
+                        <div class="preview-input-line" style="margin-top: 15px; height: auto; min-height: 50px; white-space: pre-line; background: #fff9e6; padding: 15px; border-radius: 8px; border-left: 5px solid var(--secondary);" id="preview-servicos"></div>
+                    </div>
+                    
+                    <div class="preview-dashed-line"></div>
+                    
+                    <div class="preview-signature-area">
+                        <div class="preview-signature-box">
+                            <div class="preview-signature-line"></div>
+                            <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">PREPOSTO</div>
+                        </div>
+                        <div class="preview-signature-box">
+                            <div class="preview-signature-line"></div>
+                            <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">MOTORISTA</div>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-section">
+                        <h2 style="background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%); padding: 12px; border-radius: 8px; text-align: center; color: var(--dark); margin-bottom: 25px;">DIAGNÓSTICO SERVIÇO EXECUTADO</h2>
+                        <div class="preview-diagnosis-box" id="preview-diagnostico" style="white-space: pre-line; font-weight: 500;"></div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="actions">
-                <button type="button" class="btn btn-secondary" id="limparBtn">
-                    <i class="fas fa-broom"></i> Limpar
-                </button>
-                <button type="button" class="btn btn-primary" id="visualizarBtn">
-                    <i class="fas fa-eye"></i> Visualizar
-                </button>
-                <button type="button" class="btn btn-success pulse" id="gerarPdfBtn">
-                    <i class="fas fa-file-pdf"></i> Gerar PDF
-                </button>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Gerando PDF, aguarde...</p>
+                </div>
+                
+                <div class="actions back-btn">
+                    <button type="button" class="btn btn-success" id="baixarPdfBtn">
+                        <i class="fas fa-download"></i> Baixar PDF
+                    </button>
+                </div>
             </div>
         </div>
         
-        <div class="preview-container" id="previewContainer">
-            <div class="preview-header">
-                <h1 class="preview-title">Solicitação de Manutenção</h1>
-                <button type="button" class="btn btn-secondary btn-small" id="voltarBtn">
-                    <i class="fas fa-arrow-left"></i> Voltar
-                </button>
-            </div>
+        <!-- Seção de Frotas -->
+        <div class="container fade-in" id="frotasSection" style="display: none;">
+            <header>
+                <div class="logo-container">
+                    <div class="logo">IE</div>
+                    <div>
+                        <h1><i class="fas fa-truck"></i> Gerenciamento de Frotas</h1>
+                        <p class="subtitle">Itamarati Express - Histórico de Manutenções</p>
+                    </div>
+                </div>
+                <div class="brand-badge">
+                    <i class="fas fa-truck-fast"></i> ITAMARATI EXPRESS
+                </div>
+            </header>
             
-            <div class="preview-document" id="documentoParaPdf">
-                <div style="text-align: center; margin-bottom: 25px;">
-                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary); text-shadow: 1px 1px 3px rgba(0,0,0,0.1);">ITAMARATI EXPRESS</div>
-                    <div style="font-size: 1.4rem; color: var(--dark); margin-top: 8px; font-weight: 600;">Solicitação de Manutenção</div>
+            <div class="frotas-container">
+                <div class="frotas-header">
+                    <h1 class="frotas-title">Frotas Cadastradas</h1>
+                    <p style="text-align: center; color: var(--gray);">Clique em uma frota para visualizar os PDFs de manutenção</p>
                 </div>
                 
-                <div class="preview-section">
-                    <h2 style="background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%); padding: 12px; border-radius: 8px; text-align: center; color: var(--dark); margin-bottom: 25px;">NO CASO</h2>
-                    <div class="preview-line">
-                        <div class="preview-field">
-                            <div class="preview-label">DO SETOR</div>
-                            <div class="preview-input-line" id="preview-setor"></div>
-                        </div>
-                        <div class="preview-field">
-                            <div class="preview-label">PREPOSTO</div>
-                            <div class="preview-input-line" id="preview-preposto"></div>
-                        </div>
-                    </div>
-                    <div class="preview-line">
-                        <div class="preview-field">
-                            <div class="preview-label">GERENTE MANUTENÇÃO</div>
-                            <div class="preview-input-line" id="preview-gerente"></div>
-                        </div>
-                        <div class="preview-field">
-                            <div class="preview-label">O VEÍCULO</div>
-                            <div class="preview-input-line" id="preview-veiculo"></div>
-                        </div>
-                    </div>
-                    <div class="preview-line">
-                        <div class="preview-field">
-                            <div class="preview-label">COM O MOTORISTA</div>
-                            <div class="preview-input-line" id="preview-motorista"></div>
-                        </div>
-                        <div class="preview-field">
-                            <div class="preview-label">E KM</div>
-                            <div class="preview-input-line" id="preview-km"></div>
-                        </div>
-                    </div>
-                    <div class="preview-line">
-                        <div class="preview-field">
-                            <div class="preview-label">DIA</div>
-                            <div class="preview-input-line" style="width: 100px;" id="preview-dia"></div>
-                        </div>
-                        <div class="preview-field">
-                            <div class="preview-label">/</div>
-                            <div class="preview-input-line" style="width: 100px;" id="preview-mes"></div>
-                        </div>
-                        <div class="preview-field">
-                            <div class="preview-label">/</div>
-                            <div class="preview-input-line" style="width: 100px;" id="preview-ano"></div>
-                        </div>
-                    </div>
-                    <p style="font-weight: bold; margin-top: 20px; font-size: 1.1rem; color: var(--primary);">QUE SEJAM EFETUADOS OS SERV. ABAIXO SOLICITADOS:</p>
-                    <div class="preview-input-line" style="margin-top: 15px; height: auto; min-height: 50px; white-space: pre-line; background: #fff9e6; padding: 15px; border-radius: 8px; border-left: 5px solid var(--secondary);" id="preview-servicos"></div>
+                <div class="frotas-grid" id="frotasGrid">
+                    <!-- As frotas serão carregadas dinamicamente aqui -->
                 </div>
                 
-                <div class="preview-dashed-line"></div>
-                
-                <div class="preview-signature-area">
-                    <div class="preview-signature-box">
-                        <div class="preview-signature-line"></div>
-                        <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">PREPOSTO</div>
-                    </div>
-                    <div class="preview-signature-box">
-                        <div class="preview-signature-line"></div>
-                        <div style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">MOTORISTA</div>
-                    </div>
+                <div class="actions">
+                    <button type="button" class="btn btn-secondary" id="atualizarFrotasBtn">
+                        <i class="fas fa-sync-alt"></i> Atualizar Lista
+                    </button>
                 </div>
-                
-                <div class="preview-section">
-                    <h2 style="background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%); padding: 12px; border-radius: 8px; text-align: center; color: var(--dark); margin-bottom: 25px;">DIAGNÓSTICO SERVIÇO EXECUTADO</h2>
-                    <div class="preview-diagnosis-box" id="preview-diagnostico" style="white-space: pre-line; font-weight: 500;"></div>
-                </div>
-            </div>
-            
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p class="loading-text">Gerando PDF, aguarde...</p>
-            </div>
-            
-            <div class="actions back-btn">
-                <button type="button" class="btn btn-success" id="baixarPdfBtn">
-                    <i class="fas fa-download"></i> Baixar PDF
-                </button>
             </div>
         </div>
     </div>
@@ -1140,10 +1510,154 @@
             }
         }
 
+        // Funções para gerenciamento de frotas e PDFs
+        function salvarPDF(frota, nomeArquivo, dadosFormulario) {
+            // Recupera frotas do localStorage ou inicializa um array vazio
+            let frotas = JSON.parse(localStorage.getItem('frotas')) || {};
+            
+            // Se a frota não existe, cria um array vazio para ela
+            if (!frotas[frota]) {
+                frotas[frota] = [];
+            }
+            
+            // Adiciona o novo PDF à frota
+            frotas[frota].push({
+                nomeArquivo: nomeArquivo,
+                dataCriacao: new Date().toISOString(),
+                dados: dadosFormulario
+            });
+            
+            // Salva no localStorage
+            localStorage.setItem('frotas', JSON.stringify(frotas));
+            
+            return true;
+        }
+        
+        function carregarFrotas() {
+            const frotasGrid = document.getElementById('frotasGrid');
+            const frotas = JSON.parse(localStorage.getItem('frotas')) || {};
+            
+            // Limpa o grid
+            frotasGrid.innerHTML = '';
+            
+            // Se não há frotas, exibe uma mensagem
+            if (Object.keys(frotas).length === 0) {
+                frotasGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <i class="fas fa-truck" style="font-size: 3rem; color: var(--gray); margin-bottom: 20px;"></i>
+                        <h3 style="color: var(--gray);">Nenhuma frota cadastrada</h3>
+                        <p style="color: var(--gray);">Os PDFs gerados aparecerão aqui automaticamente</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Para cada frota, cria um card
+            Object.keys(frotas).forEach(frota => {
+                const pdfs = frotas[frota];
+                const ultimoPDF = pdfs[pdfs.length - 1];
+                
+                const frotaCard = document.createElement('div');
+                frotaCard.className = 'frota-card';
+                frotaCard.innerHTML = `
+                    <div class="frota-card-header">
+                        <div class="frota-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="frota-name">Frota ${frota}</div>
+                    </div>
+                    <div class="frota-details">
+                        <div class="frota-detail">
+                            <span class="frota-detail-label">Total de PDFs:</span>
+                            <span class="frota-detail-value">${pdfs.length}</span>
+                        </div>
+                        <div class="frota-detail">
+                            <span class="frota-detail-label">Último PDF:</span>
+                            <span class="frota-detail-value">${new Date(ultimoPDF.dataCriacao).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                    </div>
+                    <div class="frota-pdfs">
+                        <h3 style="margin-bottom: 10px; color: var(--primary); font-size: 1.2rem;">PDFs de Manutenção</h3>
+                        <div class="pdf-list" id="pdf-list-${frota}">
+                            ${pdfs.length > 0 ? 
+                                pdfs.map((pdf, index) => `
+                                    <div class="pdf-item">
+                                        <span class="pdf-name">${pdf.nomeArquivo}</span>
+                                        <div class="pdf-actions">
+                                            <button class="pdf-action-btn" title="Baixar PDF" onclick="baixarPDFExistente('${frota}', ${index})">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="pdf-action-btn" title="Excluir PDF" onclick="excluirPDF('${frota}', ${index})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('') : 
+                                '<div class="no-pdfs">Nenhum PDF disponível</div>'
+                            }
+                        </div>
+                    </div>
+                `;
+                
+                frotasGrid.appendChild(frotaCard);
+            });
+        }
+        
+        function baixarPDFExistente(frota, index) {
+            const frotas = JSON.parse(localStorage.getItem('frotas')) || {};
+            const pdf = frotas[frota][index];
+            
+            // Preenche o formulário com os dados salvos
+            document.getElementById('setor').value = pdf.dados.setor;
+            document.getElementById('preposto').value = pdf.dados.preposto;
+            document.getElementById('gerente').value = pdf.dados.gerente;
+            document.getElementById('veiculo').value = pdf.dados.veiculo;
+            document.getElementById('motorista').value = pdf.dados.motorista;
+            document.getElementById('km').value = pdf.dados.km;
+            document.getElementById('dia').value = pdf.dados.dia;
+            document.getElementById('mes').value = pdf.dados.mes;
+            document.getElementById('ano').value = pdf.dados.ano;
+            document.getElementById('servicos').value = pdf.dados.servicos;
+            document.getElementById('diagnostico').value = pdf.dados.diagnostico;
+            
+            // Gera o PDF
+            gerarPDF();
+        }
+        
+        function excluirPDF(frota, index) {
+            if (confirm('Tem certeza que deseja excluir este PDF?')) {
+                const frotas = JSON.parse(localStorage.getItem('frotas')) || {};
+                
+                // Remove o PDF específico
+                frotas[frota].splice(index, 1);
+                
+                // Se a frota não tem mais PDFs, remove a frota
+                if (frotas[frota].length === 0) {
+                    delete frotas[frota];
+                }
+                
+                // Salva as alterações
+                localStorage.setItem('frotas', JSON.stringify(frotas));
+                
+                // Recarrega a lista de frotas
+                carregarFrotas();
+                
+                alert('PDF excluído com sucesso!');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Criar partículas
             createParticles();
             
+            // Elementos da sidebar
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const mainContent = document.getElementById('mainContent');
+            const menuLinks = document.querySelectorAll('.sidebar-menu a');
+            
+            // Elementos do formulário
             const formContainer = document.getElementById('formContainer');
             const previewContainer = document.getElementById('previewContainer');
             const visualizarBtn = document.getElementById('visualizarBtn');
@@ -1154,11 +1668,84 @@
             const dataAtualBtn = document.getElementById('dataAtualBtn');
             const loading = document.getElementById('loading');
             
+            // Elementos das seções
+            const solicitacaoSection = document.getElementById('solicitacaoSection');
+            const frotasSection = document.getElementById('frotasSection');
+            const atualizarFrotasBtn = document.getElementById('atualizarFrotasBtn');
+            
             // Definir o gerente como Igor Val (fixo)
             document.getElementById('gerente').value = 'Igor Val';
             
             // Definir o setor padrão como São Geraldo
             document.getElementById('setor').value = 'São Geraldo';
+            
+            // Carregar frotas ao inicializar
+            carregarFrotas();
+            
+            // Função para abrir/fechar sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+                
+                if (window.innerWidth > 1024) {
+                    mainContent.classList.toggle('with-sidebar');
+                }
+            }
+            
+            // Event listeners para a sidebar
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+            
+            // Event listeners para os links do menu
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove a classe active de todos os links
+                    menuLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Adiciona a classe active ao link clicado
+                    this.classList.add('active');
+                    
+                    // Obtém a seção a ser exibida
+                    const section = this.getAttribute('data-section');
+                    
+                    // Esconde todas as seções
+                    solicitacaoSection.style.display = 'none';
+                    frotasSection.style.display = 'none';
+                    
+                    // Exibe a seção selecionada
+                    if (section === 'solicitacao') {
+                        solicitacaoSection.style.display = 'block';
+                    } else if (section === 'frotas') {
+                        frotasSection.style.display = 'block';
+                        carregarFrotas(); // Atualiza a lista de frotas
+                    }
+                    
+                    // Fecha a sidebar em dispositivos móveis
+                    if (window.innerWidth <= 1024) {
+                        toggleSidebar();
+                    }
+                });
+            });
+            
+            // Botão para atualizar lista de frotas
+            atualizarFrotasBtn.addEventListener('click', function() {
+                carregarFrotas();
+                
+                // Feedback visual
+                const btn = document.getElementById('atualizarFrotasBtn');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Lista Atualizada!';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-secondary');
+                }, 2000);
+            });
             
             // Função para preencher a data atual
             function preencherDataAtual() {
@@ -1211,6 +1798,23 @@
                 } else {
                     return `${nomeFrota}.pdf`;
                 }
+            }
+            
+            // Função para obter dados do formulário
+            function obterDadosFormulario() {
+                return {
+                    setor: document.getElementById('setor').value,
+                    preposto: document.getElementById('preposto').value,
+                    gerente: document.getElementById('gerente').value,
+                    veiculo: document.getElementById('veiculo').value,
+                    motorista: document.getElementById('motorista').value,
+                    km: document.getElementById('km').value,
+                    dia: document.getElementById('dia').value,
+                    mes: document.getElementById('mes').value,
+                    ano: document.getElementById('ano').value,
+                    servicos: document.getElementById('servicos').value,
+                    diagnostico: document.getElementById('diagnostico').value
+                };
             }
             
             // Função para atualizar a pré-visualização
@@ -1350,6 +1954,15 @@
                         
                         const nomeArquivo = gerarNomePDF();
                         pdf.save(nomeArquivo);
+                        
+                        // Salva o PDF no localStorage
+                        const frota = document.getElementById('veiculo').value.trim();
+                        const dadosFormulario = obterDadosFormulario();
+                        
+                        if (frota) {
+                            salvarPDF(frota, nomeArquivo, dadosFormulario);
+                        }
+                        
                         loading.style.display = 'none';
                         
                         const originalText = baixarPdfBtn.innerHTML;
