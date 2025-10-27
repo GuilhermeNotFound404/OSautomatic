@@ -22,6 +22,8 @@
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --radius: 12px;
             --transition: all 0.3s ease;
+            --whatsapp: #25D366;
+            --whatsapp-dark: #128C7E;
         }
 
         * {
@@ -604,6 +606,15 @@
             background: linear-gradient(135deg, var(--secondary-dark) 0%, #cc9900 100%);
         }
         
+        .btn-whatsapp {
+            background: linear-gradient(135deg, var(--whatsapp) 0%, var(--whatsapp-dark) 100%);
+            color: white;
+        }
+        
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, var(--whatsapp-dark) 0%, #0d6e5c 100%);
+        }
+        
         .btn-small {
             padding: 12px 25px;
             font-size: 15px;
@@ -1052,6 +1063,48 @@
             padding: 20px;
         }
         
+        /* Seção WhatsApp */
+        .whatsapp-section {
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.1) 0%, rgba(18, 140, 126, 0.1) 100%);
+            border: 2px solid var(--whatsapp);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .whatsapp-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.2);
+        }
+        
+        .whatsapp-title {
+            color: var(--whatsapp);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .whatsapp-info {
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+        
+        .whatsapp-number {
+            background: var(--whatsapp);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
         /* Responsividade */
         @media (max-width: 1024px) {
             .main-content.with-sidebar {
@@ -1337,6 +1390,13 @@
                     </div>
                 </div>
                 
+                <!-- Seção WhatsApp -->
+                <div class="whatsapp-section">
+                    <h3 class="whatsapp-title"><i class="fab fa-whatsapp"></i> Envio Automático para WhatsApp</h3>
+                    <p class="whatsapp-info">Clique no botão abaixo para gerar o PDF e enviar automaticamente para o WhatsApp</p>
+                    <div class="whatsapp-number">(17) 98810-1676</div>
+                </div>
+                
                 <div class="actions">
                     <button type="button" class="btn btn-secondary" id="limparBtn">
                         <i class="fas fa-broom"></i> Limpar
@@ -1344,8 +1404,11 @@
                     <button type="button" class="btn btn-primary" id="visualizarBtn">
                         <i class="fas fa-eye"></i> Visualizar
                     </button>
-                    <button type="button" class="btn btn-success pulse" id="gerarPdfBtn">
+                    <button type="button" class="btn btn-success" id="gerarPdfBtn">
                         <i class="fas fa-file-pdf"></i> Gerar PDF
+                    </button>
+                    <button type="button" class="btn btn-whatsapp pulse" id="whatsappBtn">
+                        <i class="fab fa-whatsapp"></i> Enviar para WhatsApp
                     </button>
                 </div>
             </div>
@@ -1441,6 +1504,9 @@
                 <div class="actions back-btn">
                     <button type="button" class="btn btn-success" id="baixarPdfBtn">
                         <i class="fas fa-download"></i> Baixar PDF
+                    </button>
+                    <button type="button" class="btn btn-whatsapp" id="whatsappPreviewBtn">
+                        <i class="fab fa-whatsapp"></i> Enviar para WhatsApp
                     </button>
                 </div>
             </div>
@@ -1587,6 +1653,9 @@
                                             <button class="pdf-action-btn" title="Baixar PDF" onclick="baixarPDFExistente('${frota}', ${index})">
                                                 <i class="fas fa-download"></i>
                                             </button>
+                                            <button class="pdf-action-btn" title="Enviar WhatsApp" onclick="enviarPDFWhatsApp('${frota}', ${index})">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </button>
                                             <button class="pdf-action-btn" title="Excluir PDF" onclick="excluirPDF('${frota}', ${index})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -1624,6 +1693,27 @@
             gerarPDF();
         }
         
+        function enviarPDFWhatsApp(frota, index) {
+            const frotas = JSON.parse(localStorage.getItem('frotas')) || {};
+            const pdf = frotas[frota][index];
+            
+            // Preenche o formulário com os dados salvos
+            document.getElementById('setor').value = pdf.dados.setor;
+            document.getElementById('preposto').value = pdf.dados.preposto;
+            document.getElementById('gerente').value = pdf.dados.gerente;
+            document.getElementById('veiculo').value = pdf.dados.veiculo;
+            document.getElementById('motorista').value = pdf.dados.motorista;
+            document.getElementById('km').value = pdf.dados.km;
+            document.getElementById('dia').value = pdf.dados.dia;
+            document.getElementById('mes').value = pdf.dados.mes;
+            document.getElementById('ano').value = pdf.dados.ano;
+            document.getElementById('servicos').value = pdf.dados.servicos;
+            document.getElementById('diagnostico').value = pdf.dados.diagnostico;
+            
+            // Gera o PDF e envia para WhatsApp
+            gerarPDFParaWhatsApp();
+        }
+        
         function excluirPDF(frota, index) {
             if (confirm('Tem certeza que deseja excluir este PDF?')) {
                 const frotas = JSON.parse(localStorage.getItem('frotas')) || {};
@@ -1646,6 +1736,47 @@
             }
         }
 
+        // Função para enviar PDF para WhatsApp
+        function enviarParaWhatsApp(pdfBlob, nomeArquivo) {
+            // Cria uma URL para o blob
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            
+            // Número do WhatsApp (formato internacional sem +)
+            const numeroWhatsApp = '5517988101676';
+            
+            // Mensagem personalizada
+            const veiculo = document.getElementById('veiculo').value || 'Não informado';
+            const motorista = document.getElementById('motorista').value || 'Não informado';
+            const data = `${document.getElementById('dia').value || '__'}/${document.getElementById('mes').value || '__'}/${document.getElementById('ano').value || '____'}`;
+            
+            const mensagem = `*Solicitação de Manutenção - Itamarati Express*%0A%0A` +
+                            `*Veículo:* ${veiculo}%0A` +
+                            `*Motorista:* ${motorista}%0A` +
+                            `*Data:* ${data}%0A%0A` +
+                            `Segue em anexo a solicitação de manutenção.`;
+            
+            // URL do WhatsApp
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagem}`;
+            
+            // Abre o WhatsApp em uma nova aba
+            window.open(urlWhatsApp, '_blank');
+            
+            // Também baixa o PDF localmente
+            const a = document.createElement('a');
+            a.href = pdfUrl;
+            a.download = nomeArquivo;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            // Limpa a URL após um tempo
+            setTimeout(() => {
+                URL.revokeObjectURL(pdfUrl);
+            }, 1000);
+            
+            return true;
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Criar partículas
             createParticles();
@@ -1665,6 +1796,8 @@
             const voltarBtn = document.getElementById('voltarBtn');
             const gerarPdfBtn = document.getElementById('gerarPdfBtn');
             const baixarPdfBtn = document.getElementById('baixarPdfBtn');
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            const whatsappPreviewBtn = document.getElementById('whatsappPreviewBtn');
             const dataAtualBtn = document.getElementById('dataAtualBtn');
             const loading = document.getElementById('loading');
             
@@ -1794,9 +1927,9 @@
                 const nomeFrota = frota ? frota : 'frota';
                 
                 if (dia && mes && ano) {
-                    return `${nomeFrota}_${dia}-${mes}-${ano}.pdf`;
+                    return `Solicitacao_Manutencao_${nomeFrota}_${dia}-${mes}-${ano}.pdf`;
                 } else {
-                    return `${nomeFrota}.pdf`;
+                    return `Solicitacao_Manutencao_${nomeFrota}.pdf`;
                 }
             }
             
@@ -1844,12 +1977,41 @@
                 document.getElementById('preview-diagnostico').textContent = diagnostico;
             }
             
+            // Função para validar formulário
+            function validarFormulario() {
+                const veiculo = document.getElementById('veiculo').value.trim();
+                const motorista = document.getElementById('motorista').value.trim();
+                const servicos = document.getElementById('servicos').value.trim();
+                
+                if (!veiculo) {
+                    alert('Por favor, preencha o número da frota do veículo.');
+                    document.getElementById('veiculo').focus();
+                    return false;
+                }
+                
+                if (!motorista) {
+                    alert('Por favor, preencha o nome do motorista.');
+                    document.getElementById('motorista').focus();
+                    return false;
+                }
+                
+                if (!servicos) {
+                    alert('Por favor, descreva os serviços solicitados.');
+                    document.getElementById('servicos').focus();
+                    return false;
+                }
+                
+                return true;
+            }
+            
             // Função para visualizar
             visualizarBtn.addEventListener('click', function() {
-                atualizarPreview();
-                formContainer.style.display = 'none';
-                previewContainer.style.display = 'block';
-                previewContainer.classList.add('fade-in');
+                if (validarFormulario()) {
+                    atualizarPreview();
+                    formContainer.style.display = 'none';
+                    previewContainer.style.display = 'block';
+                    previewContainer.classList.add('fade-in');
+                }
             });
             
             // Função para limpar o formulário
@@ -1886,20 +2048,12 @@
                 formContainer.classList.add('fade-in');
             });
             
-            // Função para gerar PDF
-            gerarPdfBtn.addEventListener('click', function() {
-                atualizarPreview();
-                gerarPDF();
-            });
-            
-            baixarPdfBtn.addEventListener('click', function() {
-                gerarPDF();
-            });
-            
+            // Função para gerar PDF (download normal)
             function gerarPDF() {
+                if (!validarFormulario()) return;
+                
                 loading.style.display = 'flex';
                 
-                // Pequeno delay para garantir que o DOM foi atualizado
                 setTimeout(() => {
                     const element = document.getElementById('documentoParaPdf');
                     
@@ -1977,6 +2131,101 @@
                     });
                 }, 100);
             }
+            
+            // Função para gerar PDF e enviar para WhatsApp
+            function gerarPDFParaWhatsApp() {
+                if (!validarFormulario()) return;
+                
+                loading.style.display = 'flex';
+                
+                setTimeout(() => {
+                    const element = document.getElementById('documentoParaPdf');
+                    
+                    // Criar um clone do elemento para evitar problemas com animações
+                    const clone = element.cloneNode(true);
+                    clone.style.position = 'absolute';
+                    clone.style.left = '-9999px';
+                    clone.style.top = '0';
+                    clone.style.width = element.offsetWidth + 'px';
+                    clone.style.height = element.offsetHeight + 'px';
+                    
+                    // Remover animações e transições do clone
+                    clone.style.animation = 'none';
+                    clone.style.transition = 'none';
+                    clone.querySelectorAll('*').forEach(el => {
+                        el.style.animation = 'none';
+                        el.style.transition = 'none';
+                        el.style.transform = 'none';
+                    });
+                    
+                    document.body.appendChild(clone);
+                    
+                    html2canvas(clone, {
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: '#FFFFFF',
+                        width: clone.offsetWidth,
+                        height: clone.offsetHeight
+                    }).then(canvas => {
+                        // Remover o clone após a captura
+                        document.body.removeChild(clone);
+                        
+                        const { jsPDF } = window.jspdf;
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const imgWidth = 210;
+                        const pageHeight = 295;
+                        const imgHeight = canvas.height * imgWidth / canvas.width;
+                        
+                        let heightLeft = imgHeight;
+                        let position = 0;
+                        
+                        pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                        
+                        while (heightLeft >= 0) {
+                            position = heightLeft - imgHeight;
+                            pdf.addPage();
+                            pdf.addImage(canvas, 'PNG', 0, position, imgWidth, imgHeight);
+                            heightLeft -= pageHeight;
+                        }
+                        
+                        const nomeArquivo = gerarNomePDF();
+                        
+                        // Converte o PDF para blob
+                        const pdfBlob = pdf.output('blob');
+                        
+                        // Envia para WhatsApp
+                        enviarParaWhatsApp(pdfBlob, nomeArquivo);
+                        
+                        // Salva o PDF no localStorage
+                        const frota = document.getElementById('veiculo').value.trim();
+                        const dadosFormulario = obterDadosFormulario();
+                        
+                        if (frota) {
+                            salvarPDF(frota, nomeArquivo, dadosFormulario);
+                        }
+                        
+                        loading.style.display = 'none';
+                        
+                        const originalText = whatsappBtn.innerHTML;
+                        whatsappBtn.innerHTML = '<i class="fas fa-check"></i> Enviado!';
+                        setTimeout(() => {
+                            whatsappBtn.innerHTML = originalText;
+                        }, 3000);
+                    }).catch(err => {
+                        console.error('Erro ao gerar PDF:', err);
+                        loading.style.display = 'none';
+                        alert('Erro ao gerar PDF. Tente novamente.');
+                    });
+                }, 100);
+            }
+            
+            // Event listeners para os botões
+            gerarPdfBtn.addEventListener('click', gerarPDF);
+            baixarPdfBtn.addEventListener('click', gerarPDF);
+            whatsappBtn.addEventListener('click', gerarPDFParaWhatsApp);
+            whatsappPreviewBtn.addEventListener('click', gerarPDFParaWhatsApp);
             
             // Event listeners para validação
             document.getElementById('veiculo').addEventListener('input', permitirApenasNumeros);
